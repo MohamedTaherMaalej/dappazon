@@ -46,7 +46,6 @@ contract Dappazon {
         uint256 _rating,
         uint256 _stock
     ) public onlyOwner { // only the owner can list a product
-        
         // Crate Item Struct
         Item memory item = Item(
             _id,
@@ -58,7 +57,7 @@ contract Dappazon {
             _stock
         ); // create a new Item Struct
 
-        // Svae Item Struct to the blockchain
+        // Save Item Struct to the blockchain; Add item to mapping
         items[_id] = item; // save the item to the blockchain, the key is the id of the product and the value is the product itself
 
         // Emit an even; trigger the event
@@ -88,5 +87,11 @@ contract Dappazon {
 
         //Emit an Event
         emit Buy(msg.sender, orderCount[msg.sender], item.id); // trigger the event Buy
+    }
+
+    // Withdraw funds
+    function withdraw() public onlyOwner {
+        (bool success, ) = owner.call{value: address(this).balance}(""); // send the balance of the contract to the owner
+        require(success); // require a condition to be true, otherwise, the function will revert
     }
 }
