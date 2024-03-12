@@ -20,12 +20,12 @@ const Product = ({ item, provider, account, dappazon, togglePop }) => {
 
     if (orders.length === 0) return;
 
-    const order = dappazon.orders(account, orders[0].args.orderId);
+    const order = await dappazon.orders(account, orders[0].args.orderId);
     setOrder(order);
   };
 
   const buyHandler = async () => {
-    const signer = provider.getSigner();
+    const signer = await provider.getSigner();
 
     let transaction = await dappazon
       .connect(signer)
@@ -71,7 +71,7 @@ const Product = ({ item, provider, account, dappazon, togglePop }) => {
               {new Date(Date.now() + 345600000).toLocaleDateString(undefined, {
                 weekday: "long",
                 month: "long",
-                day: "numeric",
+                day: "numeric"
               })}
             </strong>
           </p>
@@ -97,7 +97,7 @@ const Product = ({ item, provider, account, dappazon, togglePop }) => {
                   weekday: "long",
                   hour: "numeric",
                   minute: "numeric",
-                  second: "numeric",
+                  second: "numeric"
                 })}
               </strong>
             </div>
